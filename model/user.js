@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: true,
+  },
   password: {
     type: String,
     required: true,
@@ -22,6 +27,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: false,
     required: true,
+  },
+  address: {
+    type: String,
+
+    default: " soan garden",
   },
 });
 userSchema.pre("save", async function (next) {

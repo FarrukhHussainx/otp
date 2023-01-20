@@ -14,16 +14,17 @@ const { isValidObjectId } = require("mongoose");
 const verificationToken = require("../model/verificationToken");
 const ResetToken = require("../model/resetToken");
 exports.createUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address } = req.body;
   const user = await User.findOne({ email });
   if (user) return sendError(res, "This email is already exists!");
-  const newUser = new User({ name, email, password });
+  const newUser = new User({ name, email, password, address });
 
-  const OTP = generateOtp();
+  let OTP = generateOtp();
   const verificationToken = new VerificationToken({
     owner: newUser._id,
     token: OTP,
   });
+  console.log(OTP);
   await verificationToken.save();
   mailTransport().sendMail({
     from: "emailverification@email.com",
@@ -31,6 +32,7 @@ exports.createUser = async (req, res) => {
     subject: "JUSTCLICK, Verify your email account",
     html: generateEmailTemplate(OTP),
   });
+  OTP = "";
   await newUser.save();
   res.send(newUser);
 };
@@ -50,7 +52,13 @@ exports.signin = async (req, res) => {
   });
   res.json({
     success: true,
-    user: { name: user.name, email: user.email, id: user._id, token: token },
+    user: {
+      name: user.name,
+      email: user.email,
+      id: user._id,
+      token: token,
+      address: user.address,
+    },
   });
 };
 
@@ -64,7 +72,7 @@ exports.verifyEmail = async (req, res) => {
   if (!user) return sendError(res, "Sorry, user not found");
   const b = user.verified;
   console.log(user.verified);
-  if (!false) return sendError(res, "This account is already verified!");
+  if (false) return sendError(res, "This account is already verified!");
 
   const token = await verificationToken.findOne({ owner: user._id });
 
@@ -156,4 +164,76 @@ exports.resetPassword = async (req, res) => {
     success: true,
     message: "Password Reset Successfully",
   });
+};
+/////////////////////////
+///////////////////
+///////////////////////
+//admin apis
+//get user
+// router.post("/getlogedone", fetchuser, async (req, res) => {
+//   try {
+//     console.log(req.user);
+//     UserId = req.user;
+//     const user = await User.findById(UserId).select("-password");
+//     res.send(user);
+//   } catch (error) {
+//     console.log;
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+exports.getalluser = async (req, res) => {
+  const notes = await User.find({});
+  res.json(notes);
+};
+exports.getuser = async (req, res) => {
+  const notes = await User.find({ _id: req.params.id });
+  console.log(req.body);
+  res.json(notes);
+};
+exports.updateuserstatus = async (req, res) => {
+  const { status } = req.body;
+  let newNote = {};
+  if (status) {
+    newNote.status = status;
+  }
+
+  let note = await User.findById(req.params.id);
+  if (!note) {
+    return res.status(401).send("not found");
+  }
+  // if (note.user.toString() !== req.user) {
+  //   return res.status(401).send("not allowed");
+  // }
+  note = await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: newNote },
+    { new: true }
+  );
+  res.json({ note });
+};
+
+exports.updateuserinfo = async (req, res) => {
+  const { status } = req.body;
+  let newNote = {};
+  if (req.body.name) {
+    newNote.name = req.body.name;
+  }
+  if (req.body.address) {
+    newNote.address = req.body.address;
+  }
+
+  let note = await User.findById(req.params.id);
+  if (!note) {
+    return res.status(401).send("not found");
+  }
+  // if (note.user.toString() !== req.user) {
+  //   return res.status(401).send("not allowed");
+  // }
+  note = await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: newNote },
+    { new: true }
+  );
+  res.json({ note });
 };

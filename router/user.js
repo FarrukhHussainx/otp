@@ -6,6 +6,10 @@ const {
   verifyEmail,
   forgetPassword,
   resetPassword,
+  getalluser,
+  getuser,
+  updateuserstatus,
+  updateuserinfo,
 } = require("../controllers/user");
 const { isResetTokenValid } = require("../middleware/user");
 const { validateUser, validate } = require("../middleware/validator");
@@ -18,4 +22,9 @@ router.post("/reset-password", isResetTokenValid, resetPassword);
 router.get("/verify-token", isResetTokenValid, (req, res) => {
   res.json({ success: true });
 });
+//get All customers
+router.get("/getallcustomers", getalluser);
+router.get("/getcustomers/:id", getuser);
+router.put("/updateuserstatus/:id", updateuserstatus);
+router.put("/updateuserinfo/:id", updateuserinfo);
 module.exports = router;
