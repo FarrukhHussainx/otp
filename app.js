@@ -13,6 +13,9 @@ app.use(express.json());
 app.use("/api/user", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/company", companyRouter);
+app.get("/", (req, res) => {
+  res.status(201).json({ status: "success" });
+});
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
