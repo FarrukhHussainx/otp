@@ -1,10 +1,10 @@
 // ///////////////
 const mongoose = require("mongoose");
-// const dbUrl =
-//   "mongodb+srv://farukh:farukh123@fyp.xvknyqx.mongodb.net/TheHandys?retryWrites=true&w=majority&ssl=true";
+const dbUrl =
+  "mongodb+srv://farukh:farukh123@fyp.xvknyqx.mongodb.net/TheHandys?retryWrites=true&w=majority";
 // const dbUrl =
 //   "mongodb+srv://farrukhx:farrukh123@cluster0.zotdnvr.mongodb.net/?retryWrites=true&w=majority";
-const dbUrl = "mongodb://localhost:27017";
+// const dbUrl = "mongodb://localhost:27017";
 
 const connectionParams = {
   useNewUrlParser: true,
