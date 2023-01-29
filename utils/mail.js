@@ -14,8 +14,8 @@ exports.mailTransport = () =>
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "5f0861d2669c79",
-      pass: "9492bf85291032",
+      user: "706be1b93b3220",
+      pass: "ec8b51fd5f0a00",
     },
   });
 
