@@ -28,9 +28,10 @@ const userSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
+  wallet: { type: Number, default: 0 },
   address: {
     type: String,
-
+    required: true,
     default: " soan garden",
   },
 });

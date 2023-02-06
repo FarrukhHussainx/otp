@@ -214,7 +214,7 @@ exports.updateuserstatus = async (req, res) => {
 };
 
 exports.updateuserinfo = async (req, res) => {
-  const { status } = req.body;
+  //const { status } = req.body;
   let newNote = {};
   if (req.body.name) {
     newNote.name = req.body.name;
