@@ -91,6 +91,11 @@ router.get("/getorders/:id", async (req, res) => {
   console.log(req.body);
   res.json(notes);
 });
+router.get("/getsingleorders/:id", async (req, res) => {
+  const notes = await orders.find({ _id: req.params.id });
+  console.log(req.body);
+  res.json(notes);
+});
 router.get("/getallorders", async (req, res) => {
   const notes = await orders.find();
   console.log(req.body);
