@@ -91,4 +91,9 @@ router.get("/getorders/:id", async (req, res) => {
   console.log(req.body);
   res.json(notes);
 });
+router.get("/getallorders", async (req, res) => {
+  const notes = await orders.find();
+  console.log(req.body);
+  res.json(notes);
+});
 module.exports = router;
