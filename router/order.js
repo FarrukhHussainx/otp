@@ -96,6 +96,27 @@ router.get("/getsingleorders/:id", async (req, res) => {
   console.log(req.body);
   res.json(notes);
 });
+router.get("/updateorderstatus/:id", async (req, res) => {
+  const { status } = req.body;
+  let newNote = {};
+  if (status) {
+    newNote.status = status;
+  }
+
+  let note = await orders.findById(req.params.id);
+  if (!note) {
+    return res.status(401).send("not found");
+  }
+  // if (note.user.toString() !== req.user) {
+  //   return res.status(401).send("not allowed");
+  // }
+  note = await orders.findByIdAndUpdate(
+    req.params.id,
+    { $set: newNote },
+    { new: true }
+  );
+  res.json({ note });
+});
 router.get("/getallorders", async (req, res) => {
   const notes = await orders.find();
   console.log(req.body);
