@@ -96,6 +96,7 @@ router.get("/getsingleorders/:id", async (req, res) => {
   console.log(req.body);
   res.json(notes);
 });
+
 router.put("/updateorderstatus/:id", async (req, res) => {
   const { status } = req.body;
   let newNote = {};
@@ -117,6 +118,7 @@ router.put("/updateorderstatus/:id", async (req, res) => {
   );
   res.json({ note });
 });
+
 router.get("/getallorders", async (req, res) => {
   const notes = await orders.find();
   console.log(req.body);
