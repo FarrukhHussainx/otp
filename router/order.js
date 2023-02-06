@@ -96,7 +96,7 @@ router.get("/getsingleorders/:id", async (req, res) => {
   console.log(req.body);
   res.json(notes);
 });
-router.post("/updateorderstatus/:id", async (req, res) => {
+router.put("/updateorderstatus/:id", async (req, res) => {
   const { status } = req.body;
   let newNote = {};
   if (status) {
