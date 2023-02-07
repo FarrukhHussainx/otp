@@ -240,6 +240,7 @@ exports.updateuserinfo = async (req, res) => {
 };
 
 exports.updateuserwallet = async (req, res) => {
+  const { status } = req.body;
   let newNote = {};
 
   newNote.wallet = 10;
