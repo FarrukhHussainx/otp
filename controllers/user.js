@@ -238,3 +238,23 @@ exports.updateuserinfo = async (req, res) => {
   );
   res.json({ note });
 };
+
+exports.updateuserwallet = async (req, res) => {
+  let newNote = {};
+
+  newNote.wallet = 10;
+
+  let note = await User.findById(req.params.id);
+  if (!note) {
+    return res.status(401).send("not found");
+  }
+  // if (note.user.toString() !== req.user) {
+  //   return res.status(401).send("not allowed");
+  // }
+  note = await User.findByIdAndUpdate(
+    req.params.id,
+    { $set: newNote },
+    { new: true }
+  );
+  res.json({ note });
+};

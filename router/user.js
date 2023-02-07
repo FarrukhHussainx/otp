@@ -10,6 +10,7 @@ const {
   getuser,
   updateuserstatus,
   updateuserinfo,
+  updateuserwallet,
 } = require("../controllers/user");
 const { isResetTokenValid } = require("../middleware/user");
 const { validateUser, validate } = require("../middleware/validator");
@@ -26,5 +27,6 @@ router.get("/verify-token", isResetTokenValid, (req, res) => {
 router.get("/getallcustomers", getalluser);
 router.get("/getcustomers/:id", getuser);
 router.put("/updateuserstatus/:id", updateuserstatus);
+router.put("/updateuserwallet/:id", updateuserwallet);
 router.put("/updateuserinfo/:id", updateuserinfo);
 module.exports = router;
