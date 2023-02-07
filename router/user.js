@@ -28,5 +28,5 @@ router.get("/getallcustomers", getalluser);
 router.get("/getcustomers/:id", getuser);
 router.put("/updateuserstatus/:id", updateuserstatus);
 router.put("/updateuserwallet/:id", updateuserwallet);
-router.put("/updateuserinfo/:id", updateuserinfo);
+router.post("/updateuserinfo/:id", updateuserinfo);
 module.exports = router;
