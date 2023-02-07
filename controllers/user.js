@@ -58,6 +58,7 @@ exports.signin = async (req, res) => {
       id: user._id,
       token: token,
       address: user.address,
+      wallet: user.wallet,
     },
   });
 };
