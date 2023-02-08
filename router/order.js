@@ -71,20 +71,11 @@ router.post("/createorder", async (req, res) => {
 //   );
 //   res.json({ note });
 // });
-// //Delete loged-in note of user
-// router.delete("/deleteOrder/:id", fetchuser, async (req, res) => {
-//   // const { title, description, tag } = req.body;
-
-//   // let note = await orders.findById(req.params.id);
-//   // if (!note) {
-//   //   return res.status(401).send("not found");
-//   // }
-//   // if (note.user.toString() !== req.user) {
-//   //   return res.status(401).send("not allowed");
-//   // }
-//   const note = await orders.findByIdAndDelete(req.params.id);
-//   res.json({ success: "Service deleted" });
-// });
+//Delete loged-in note of user
+router.delete("/deleteOrder/:id", async (req, res) => {
+  const note = await orders.findByIdAndDelete(req.params.id);
+  res.json({ success: "Service deleted" });
+});
 
 router.get("/getorders/:id", async (req, res) => {
   const notes = await orders.find({ customer_id: req.params.id });
@@ -98,19 +89,25 @@ router.get("/getsingleorders/:id", async (req, res) => {
 });
 
 router.put("/updateorderstatus/:id", async (req, res) => {
-  const { status } = req.body;
   let newNote = {};
-  if (status) {
-    newNote.status = status;
-  }
 
   let note = await orders.findById(req.params.id);
   if (!note) {
     return res.status(401).send("not found");
   }
+
+  if (note.status === "place") {
+    newNote.status = "worker assign";
+  } else if (note.status == "worker assign") {
+    newNote.status = "work in progress";
+  } else if (note.status == "work in progress") {
+    newNote.status = "complete";
+  }
+  console.log(newNote.status);
   // if (note.user.toString() !== req.user) {
   //   return res.status(401).send("not allowed");
   // }
+
   note = await orders.findByIdAndUpdate(
     req.params.id,
     { $set: newNote },
